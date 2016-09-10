@@ -68,6 +68,16 @@ public class HelloController {
 
 	}
 
+	@RequestMapping(value = "/error", method = RequestMethod.GET)
+	public ModelAndView errorPage() {
+
+		ModelAndView model = new ModelAndView();
+		model.addObject("title", "Exception");
+		model.setViewName("errorPage");
+		return model;
+
+	}
+	
 	@RequestMapping(value = "/adminHome", method = RequestMethod.GET)
 	public ModelAndView adminPage() {
 

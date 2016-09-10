@@ -70,4 +70,9 @@
        <put-attribute name="title" value="Patient Home Page" />  
        <put-attribute name="body" value="/WEB-INF/views/pages/patient_home.jsp" />  
    </definition>
+   
+   <definition name="errorPage" extends="base-definition">  
+       <put-attribute name="title" value="Error Page" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/error.jsp" />  
+   </definition>
 </tiles-definitions>
