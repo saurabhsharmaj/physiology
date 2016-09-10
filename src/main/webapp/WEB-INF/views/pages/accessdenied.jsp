@@ -1,0 +1,1 @@
+You don't have rights to access this page.

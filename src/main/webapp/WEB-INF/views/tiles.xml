@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC  "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"  "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">  
+ 
+<tiles-definitions>  
+  
+   <!-- Base Definition -->
+   <definition name="base-definition"
+       template="/WEB-INF/views/tiles/layouts/defaultLayout.jsp">  
+       <put-attribute name="title" value="" />  
+       <put-attribute name="header" value="/WEB-INF/views/tiles/template/defaultHeader.jsp" />        
+       <put-attribute name="body" value="" />  
+       <put-attribute name="footer" value="/WEB-INF/views/tiles/template/defaultFooter.jsp" />  
+   </definition>  
+  
+   <!-- Home Page -->
+   <definition name="homePage" extends="base-definition">  
+       <put-attribute name="title" value="Home" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/home.jsp" />  
+   </definition> 
+   
+   
+    <!-- Login Page -->
+   <definition name="loginPage" extends="base-definition">  
+       <put-attribute name="title" value="Login" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/login.jsp" />  
+   </definition> 
+   
+   
+    <!-- Registration Page -->
+   <definition name="registrationPage" extends="base-definition">  
+       <put-attribute name="title" value="Registration" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/registration.jsp" />  
+   </definition> 
+   
+   
+    <!-- Forgot Password Page -->
+   <definition name="resetpasswordPage" extends="base-definition">  
+       <put-attribute name="title" value="Password Reset" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/getpassword.jsp" />  
+   </definition> 
+   
+   <!-- Test Password Page -->
+   <definition name="testTypesPage" extends="base-definition">  
+       <put-attribute name="title" value="Question" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/testtypes.jsp" />  
+   </definition>
+   
+   <!-- Test Password Page -->
+   <definition name="questionPage" extends="base-definition">  
+       <put-attribute name="title" value="Question" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/question.jsp" />  
+   </definition>
+   
+   <definition name="accessDeniedPage" extends="base-definition">  
+       <put-attribute name="title" value="Access Denied" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/accessdenied.jsp" />  
+   </definition>    
+   
+   <definition name="adminHomePage" extends="base-definition">  
+       <put-attribute name="title" value="Admin Home Page" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/admin_home.jsp" />  
+   </definition>
+ 
+ <definition name="doctorHomePage" extends="base-definition">  
+       <put-attribute name="title" value="Doctor Home Page" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/doctor_home.jsp" />  
+   </definition>
+   
+   <definition name="patientHomePage" extends="base-definition">  
+       <put-attribute name="title" value="Patient Home Page" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/patient_home.jsp" />  
+   </definition>
+</tiles-definitions>
