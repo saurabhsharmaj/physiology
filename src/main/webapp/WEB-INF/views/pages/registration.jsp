@@ -29,6 +29,16 @@
 				                        </div>
 				                        
 				                        <div class="form-group">
+				                        	<label class="sr-only" for="contactNo">Mobile No</label>
+				                        	<input type="text" name="contactNo" placeholder="Mobile No" class="contactNo form-control" id="contactNo">
+				                        </div>
+				                        <div class="form-group">
+				                        	<label class="sr-only" for="address">Address</label>
+				                        	<textarea name="address" placeholder="Address" 
+				                        				class="address form-control" id="address"></textarea>
+				                        </div>
+				                        
+				                        <div class="form-group">
 				                    		<label class="sr-only" for="fname">Age</label>
 				                        	<input type="text" name="age" placeholder="age" class="age form-control" id="age">
 				                        </div>

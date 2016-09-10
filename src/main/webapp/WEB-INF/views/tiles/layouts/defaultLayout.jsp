@@ -15,6 +15,7 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/form-elements.css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/check-radio.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/cardio.css">
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
