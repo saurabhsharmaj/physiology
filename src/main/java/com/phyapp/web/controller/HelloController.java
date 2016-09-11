@@ -1,7 +1,9 @@
 package com.phyapp.web.controller;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,10 +28,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.phyapp.utils.PhysiologyConstants;
 import com.phyapp.utils.PhysiologyUtils;
 import com.phyapp.web.modal.Answers;
 import com.phyapp.web.modal.Login;
@@ -45,6 +47,7 @@ import com.phyapp.web.service.TestTypeService;
 import com.phyapp.web.service.UserService;
 import com.phyapp.web.value.NextQueuestion;
 import com.phyapp.web.value.QuestionAnswer;
+import com.phyapp.web.value.TestDetailResponse;
 import com.phyapp.web.value.TestResponse;
 
 @Controller
@@ -104,8 +107,25 @@ public class HelloController {
 		ModelAndView model = new ModelAndView();
 		model.addObject("title", "Doctor");
 		model.addObject("message", "This is protected page - Database Page!");
+		List<Testtype> testTypes = testTypeService.getList();
+		List<Login> loggedInUsers = loginService.getListByUserRole(PhysiologyConstants.ROLE_PATIENT);
+		List<TestDetailResponse> testResults = new ArrayList<TestDetailResponse>();
+		for (Login loginUser : loggedInUsers) {
+			TestDetailResponse tres = new TestDetailResponse();
+			Login login = loginService.getLoginDetailByUserName(loginUser.getUsername());
+			UserDetail userDetail = login.getUserDetail();
+			tres.setUserDetail(userDetail);
+			Map<String, Testdetail> testDetailsforUser = new LinkedHashMap<String, Testdetail>();
+			for (Testtype testType : testTypes) {
+				Testdetail testDetail = testDetailService.getLatestTestDetailByUserIdAndTestType(userDetail.getId(), testType.getId());
+				testDetailsforUser.put(testType.getTestName(), testDetail);
+			}
+			tres.setTestResults(testDetailsforUser);
+			testResults.add(tres);
+		}
+		model.addObject("testTypes", testTypes);
+		model.addObject("testResults", testResults);
 		model.setViewName("doctorHomePage");
-
 		return model;
 
 	}

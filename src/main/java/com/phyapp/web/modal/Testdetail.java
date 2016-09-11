@@ -65,7 +65,7 @@ public class Testdetail implements java.io.Serializable {
 		this.testtype = testtype;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "userid")
 	public UserDetail getUserDetail() {
 		return this.userDetail;

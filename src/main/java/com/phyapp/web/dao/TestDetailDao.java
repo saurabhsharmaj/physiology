@@ -12,4 +12,6 @@ public interface TestDetailDao {
 	Integer updateTestDetail(Testdetail testDetail);
 	void deleteTestDetail(Testdetail testDetail);
 	Integer saveTestHistory(Testhistory testhistory);
+	List<Testdetail> getLatestList();
+	Testdetail getLatestTestDetailByUserIdAndTestType(Integer userId, Integer testTypeId);
 }

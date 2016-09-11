@@ -11,4 +11,5 @@ public interface LoginDao {
 	Integer saveLoginDetail(Login loginDetail);
 	Integer updateLoginDetail(Login loginDetail);
 	void deleteLoginDetail(Login loginDetail);
+	List<Login> getListByUserRole(String roleName);
 }

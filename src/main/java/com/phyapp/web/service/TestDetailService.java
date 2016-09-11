@@ -13,4 +13,6 @@ public interface TestDetailService {
 	void deleteTestDetail(Testdetail testDetail);
 	Integer createNewTest(Integer userId, Integer testTypeId);
 	Integer saveTestHistory(Testhistory testhistory);
+	List<Testdetail> getLatestList();
+	Testdetail getLatestTestDetailByUserIdAndTestType(Integer id, Integer id2);
 }

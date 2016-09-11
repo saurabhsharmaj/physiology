@@ -954,3 +954,14 @@ section {
     /* custom max width */
     max-width:320px;
 }
+table.table{
+background: #FFF;
+}
+
+td,th{
+	border-right: 1px solid #ccc;
+}
+
+.table td,th {
+   text-align: center;   
+}

@@ -64,4 +64,14 @@ public class TestDetailServiceImpl implements TestDetailService {
 	public Integer saveTestHistory(Testhistory testhistory) {
 		return testDetailDao.saveTestHistory(testhistory);
 	}
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Testdetail> getLatestList() {
+		return testDetailDao.getLatestList();
+	}
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = false)
+	public Testdetail getLatestTestDetailByUserIdAndTestType(Integer userId, Integer testTypeId) {
+		return testDetailDao.getLatestTestDetailByUserIdAndTestType(userId, testTypeId);
+	}
 }

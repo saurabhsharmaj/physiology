@@ -1,3 +1,6 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <div class="wrapper" id="wrapperId">
 			<div style="padding-top:25px;">
 			 <form method="post" enctype="multipart/form-data" name="fileinfo">
@@ -9,6 +12,49 @@
 			</div>
 		</div>
 		<a href="resources/exceltemplates/question.xls">Download Question Template</a>
+		<div class="table-responsive">
+			<table class="table">
+				<thead class="thead-inverse">
+					<tr>
+					<th>S.No</th>
+					<th>UserName</th>
+					<c:forEach var="testType" items="${testTypes}" varStatus="loop">
+						<th>${testType.testName}</th>
+					</c:forEach>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						
+					<c:forEach var="testDetail" items="${testResults}" varStatus="tdetail">
+						<tr>
+							<td>${tdetail.index + 1 }</td>
+							<td>${ testDetail.userDetail.name}</td>
+							<c:forEach var="entry" items="${testDetail.testResults}">
+							  <td>
+							  	   <c:choose>
+									  <c:when test="${not empty entry.value}">									
+							  	   				<c:choose>
+												  <c:when test="${not empty entry.value.score}">
+												   <%--  <c:out value="${entry.key}"/> / --%>
+										  	   		<c:out value="${entry.value.score}"/>
+												  </c:when>									  
+												  <c:otherwise>
+												  	 0
+												  </c:otherwise>
+												</c:choose>
+									  </c:when>									  
+									  <c:otherwise>
+									    Not Attempt
+									  </c:otherwise>
+									</c:choose>
+							  </td>
+							</c:forEach>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+		</div>
 <script>
 function uploadFile(){
 	var formData = new FormData($('form')[0]); 

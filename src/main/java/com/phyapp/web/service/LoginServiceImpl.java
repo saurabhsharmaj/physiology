@@ -43,7 +43,11 @@ public class LoginServiceImpl implements LoginService {
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Login getLoginDetailByUserName(String username) {
-		// TODO Auto-generated method stub
 		return testTypeDao.getLoginDetailByUserName(username);
+	}
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = false)
+	public List<Login> getListByUserRole(String roleName) {
+		return testTypeDao.getListByUserRole(roleName);
 	}	
 }

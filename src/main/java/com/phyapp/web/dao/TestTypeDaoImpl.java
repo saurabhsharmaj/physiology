@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,7 @@ public class TestTypeDaoImpl implements TestTypeDao {
 	public List<Testtype> getList() {
 		Criteria criteria = getSession().createCriteria(Testtype.class);
 		criteria.add(Restrictions.eq("status", 0));
+		criteria.addOrder(Order.asc("id"));
 		return criteria.list();
 	}
 
