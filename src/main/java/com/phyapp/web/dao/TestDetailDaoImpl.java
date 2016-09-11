@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.phyapp.web.modal.Testdetail;
+import com.phyapp.web.modal.Testhistory;
 
 @Component
 public class TestDetailDaoImpl implements TestDetailDao {
@@ -51,5 +52,12 @@ public class TestDetailDaoImpl implements TestDetailDao {
 		Session session = getSession();
 		session.delete(testDetail);
 		
+	}
+
+	public Integer saveTestHistory(Testhistory testhistory) {
+		Session session = getSession();
+		session.saveOrUpdate(testhistory);
+		Serializable id = session.getIdentifier(testhistory);
+		return Integer.valueOf(id.toString());
 	}
 }

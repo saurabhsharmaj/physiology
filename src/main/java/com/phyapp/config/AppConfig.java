@@ -18,11 +18,14 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
+
+import com.phyapp.web.filter.RequestInterceptor;
 
 @EnableWebMvc
 @Configuration
@@ -118,5 +121,14 @@ public class AppConfig extends WebMvcConfigurerAdapter{
         HibernateTransactionManager transactionManager = new HibernateTransactionManager(sessionFactory);     
         return transactionManager;
     }
+
+
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		// TODO Auto-generated method stub
+		registry.addInterceptor(new RequestInterceptor());
+		super.addInterceptors(registry);
+	}
 	
+    
 }

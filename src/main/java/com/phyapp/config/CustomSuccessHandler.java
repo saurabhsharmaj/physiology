@@ -1,25 +1,34 @@
 package com.phyapp.config;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
  
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
- 
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+
+import com.phyapp.web.modal.Login;
+import com.phyapp.web.service.LoginService;
+import com.phyapp.web.service.UserService;
  
 @Component
 public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
  
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
  
+    @Autowired
+   LoginService loginService;
+    
     @Override
     protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
             throws IOException {
@@ -29,7 +38,9 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             System.out.println("Can't redirect");
             return;
         }
- 
+        String username =  ((org.springframework.security.core.userdetails.User)authentication.getPrincipal()).getUsername();
+        Login login = loginService.getLoginDetailByUserName(username);
+        request.getSession().setAttribute("loginDetails",login);
         redirectStrategy.sendRedirect(request, response, targetUrl);
     }
  

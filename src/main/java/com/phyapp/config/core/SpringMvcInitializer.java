@@ -27,8 +27,6 @@ public class SpringMvcInitializer extends AbstractAnnotationConfigDispatcherServ
 	@Override
 	protected Filter[] getServletFilters() {
 		return new Filter[]{new CORSFilter()};
-	}
-	
-	
+	}	
 	
 }

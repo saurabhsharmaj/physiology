@@ -12,6 +12,7 @@ import com.phyapp.web.dao.TestDetailDao;
 import com.phyapp.web.dao.TestTypeDao;
 import com.phyapp.web.dao.UserDao;
 import com.phyapp.web.modal.Testdetail;
+import com.phyapp.web.modal.Testhistory;
 
 @Service
 public class TestDetailServiceImpl implements TestDetailService {
@@ -57,5 +58,10 @@ public class TestDetailServiceImpl implements TestDetailService {
 		testDetail.setTesttype(testTypeDao.getTestTypeById(testTypeId));
 		testDetail.setUpdatedOn(new Date());
 		return testDetailDao.saveTestDetail(testDetail);
+	}
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = false)
+	public Integer saveTestHistory(Testhistory testhistory) {
+		return testDetailDao.saveTestHistory(testhistory);
 	}
 }

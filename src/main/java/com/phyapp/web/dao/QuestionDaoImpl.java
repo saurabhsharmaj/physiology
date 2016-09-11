@@ -97,4 +97,10 @@ public class QuestionDaoImpl implements QuestionDao {
 		return Integer.valueOf(id.toString());
 	}
 
+	public Questiontype getQuestonType(Integer questionTypeId) {
+		Criteria criteria = getSession().createCriteria(Questiontype.class);
+		criteria.add(Restrictions.eq("id", questionTypeId));
+		return (Questiontype)criteria.uniqueResult();
+	}
+
 }

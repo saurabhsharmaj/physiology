@@ -67,4 +67,9 @@ public class QuestionServiceImpl implements QuestionService {
 	public Integer saveAnswer(Answers ans) {
 		return testTypeDao.saveAnswer(ans);
 	}
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)	
+	public Questiontype getQuestonType(Integer questionType) {
+		return testTypeDao.getQuestonType(questionType);
+	}
 }

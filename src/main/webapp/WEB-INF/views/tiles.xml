@@ -75,4 +75,11 @@
        <put-attribute name="title" value="Error Page" />  
        <put-attribute name="body" value="/WEB-INF/views/pages/error.jsp" />  
    </definition>
+   
+   
+   
+   <definition name="resultPage" extends="base-definition">  
+       <put-attribute name="title" value="Score" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/score.jsp" />  
+   </definition>
 </tiles-definitions>

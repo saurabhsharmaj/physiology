@@ -17,4 +17,5 @@ public interface QuestionDao {
 	Long getTotalQuestionByTestType(Integer testType);
 	Questiontype getDefaultQuestionType();
 	Integer saveAnswer(Answers ans);
+	Questiontype getQuestonType(Integer questionType);
 }

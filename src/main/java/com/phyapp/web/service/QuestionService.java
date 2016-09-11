@@ -18,4 +18,5 @@ public interface QuestionService {
 	Questiontype getDefaultQuestionType();
 	
 	Integer saveAnswer(Answers ans);
+	Questiontype getQuestonType(Integer questionType);
 }

@@ -1,6 +1,7 @@
 package com.phyapp.web.controller;
 
 import java.io.File;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -33,12 +35,17 @@ import com.phyapp.web.modal.Answers;
 import com.phyapp.web.modal.Login;
 import com.phyapp.web.modal.Question;
 import com.phyapp.web.modal.Testdetail;
+import com.phyapp.web.modal.Testhistory;
+import com.phyapp.web.modal.Testtype;
+import com.phyapp.web.modal.UserDetail;
 import com.phyapp.web.service.LoginService;
 import com.phyapp.web.service.QuestionService;
 import com.phyapp.web.service.TestDetailService;
 import com.phyapp.web.service.TestTypeService;
 import com.phyapp.web.service.UserService;
 import com.phyapp.web.value.NextQueuestion;
+import com.phyapp.web.value.QuestionAnswer;
+import com.phyapp.web.value.TestResponse;
 
 @Controller
 public class HelloController {
@@ -200,11 +207,75 @@ public class HelloController {
     public String startTest(@PathVariable(value="userid") Integer userId,@PathVariable(value="testtypeid") Integer testTypeId,ModelMap model) {     	
     	model.addAttribute("userdetail",userService.getUserDetailById(userId));
     	model.addAttribute("testType",testTypeService.getTestTypeById(testTypeId));	
+    	Integer testId = testDetailService.createNewTest(userId, testTypeId);
     	List<Question> questionList = questionService.getListByTestType(testTypeId);    	
     	model.addAttribute("questions",questionList);
     	model.addAttribute("totalQuestion",questionList.size());
+    	model.addAttribute("testid", testId);
     	return "questionPage";
     }
+    
+    
+    @RequestMapping(value = "testresult/{testtypeid}/{score}", method = RequestMethod.GET)
+    public String testResult(@PathVariable(value="testtypeid") Integer testtypeid, @PathVariable(value="score") Integer score,ModelMap model) {    	
+    	model.addAttribute("testType",testTypeService.getTestTypeById(testtypeid));
+    	model.addAttribute("score", score);
+    	return "resultPage";
+    }
+    
+    @RequestMapping(value = "saveTestResult", method = RequestMethod.POST, consumes="application/json", headers = "Accept=application/json",  produces = "application/json")
+   	public @ResponseBody String saveTestResult(@RequestBody TestResponse test, UriComponentsBuilder ucBuilder) {
+   		JsonObject response = new JsonObject();
+   		Integer totalScore = 0;
+   		try {
+   			System.out.println(test.getUserid());
+   			System.out.println(test.getTestid());
+   			System.out.println(test.getQuestions());
+   			//Insert the option again the testId.
+   			//Update the total Score & Return score.
+   			Testdetail testDetail =  testDetailService.getTestDetailById(test.getTestid());
+   			UserDetail userDetail = userService.getUserDetailById(test.getUserid());
+   			Testtype testtype = testTypeService.getTestTypeById(test.getTestTypeId());
+   			QuestionAnswer [] queAns = test.getQuestions();
+   			for (QuestionAnswer questionAnswer : queAns) {
+   				totalScore +=questionAnswer.getScore();
+   				Testhistory testhistory = new Testhistory();
+   				testhistory.setTestdetail(testDetail);
+   				testhistory.setUserDetail(userDetail);
+   				testhistory.setQuestionId(questionAnswer.getQid());
+   				testhistory.setTesttype(testtype);
+   				testhistory.setQuestiontype(questionService.getQuestonType(questionAnswer.getQuestionType()));
+   				testhistory.setSelectedTypeId(questionAnswer.getOption());
+   				testhistory.setOptionscore(questionAnswer.getScore());
+   				testhistory.setUpdatedOn(new Date());
+   				testDetailService.saveTestHistory(testhistory);   				
+			}
+   			
+   			
+   			testDetail.setScore(totalScore);
+   			testDetailService.saveTestDetail(testDetail);
+   			response.addProperty("testtypeid", testtype.getId());
+   			response.addProperty("score", totalScore);
+   			response.addProperty("successMsg", "success");
+			response.addProperty("errorMsg", "");
+   		}catch(Exception ex){
+   			response.addProperty("successMsg", "");
+			response.addProperty("errorMsg", ex.getMessage());
+   		}
+		return response.toString();
+    }
+    
+    public static void main(String[] args) {
+		/*//{"userid":2,"testid":367,"questions":[{"qid":1,"score":2,"option":3},{"qid":3,"score":4,"option":5}]}
+    	//{"userid":"2","testid":"370","questions":["{qid:1,score:0, option:2}","{qid:2,score:10, option:5}","{qid:3,score:20, option:9}"]}
+    	TestResponse testResponse = new TestResponse();
+		testResponse.setUserid(2);
+		testResponse.setTestid(367);
+		QuestionAnswer [] queAns = new QuestionAnswer[]{new QuestionAnswer(1,2,3),new QuestionAnswer(3,4,5)};
+		testResponse.setQuestions(queAns);
+		Gson gson = new Gson();
+		System.out.println(gson.toJson(testResponse));*/
+	}
     
     private Login getLoginDetails(){
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();

@@ -7,7 +7,10 @@
                     <div class="row">
                         <div class="col-sm-6 col-sm-offset-3 form-box">
                         	
-                        	<form role="form" action="" method="post" class="registration-form">
+                        	<input type="hidden" id="userid" value="${loginDetails.userDetail.id}">
+                        	<input type="hidden" id="testid" value="${testid}">
+                        	<input type="hidden" id="testtypeid" value="${testType.id}">
+                        	<form role="form" id="form" method="post" class="registration-form">
                         		<c:forEach var="que" items="${questions}" varStatus="loop">
                         		<fieldset>
 		                        	<div class="form-top">
@@ -28,7 +31,7 @@
 										      <div class="form-top-right">
 			                        			<i class="fa fa-question-circle"></i>
 			                        		</div>
-			                        			<a href="javascript:void(0);" onclick="exit();">exit</a>
+			                        			<!-- <a href="javascript:void(0);" onclick="exit();">exit</a> -->
 										    </div>
 										  </div>
 		                        		
@@ -42,7 +45,7 @@
 				                    	<div class="form-group">				                    			
 				                    		<c:forEach var="ans" items="${que.answerses}" varStatus="ansloop">
 												<label class="Form-label--tick">
-												  <input type="radio" value="${ans.score}" name="option${loop.index}" class="Form-label-radio">
+												  <input type="radio" value="${ans.score}" name="option${loop.index}" qid="${que.id}" ansid="${ans.id}" qtype="${que.questiontype.id}" class="Form-label-radio">
 												  <span class="Form-label-text">${ans.description}</span>
 												</label>												
 				                    		</c:forEach>				                       
@@ -56,7 +59,7 @@
 				                        </c:if>
 				                        
 				                         <c:if test="${loop.index + 1 == totalQuestion}">
-				                        	<button type="submit" class="btn">Finish</button>
+				                        	<button type="button" class="btn" id="testFinish">Finish</button>
 				                         </c:if>
 				                    </div>
 			                    </fieldset>
@@ -95,8 +98,56 @@
 <script>
 
 $( document ).ready(function() {
+	$.fn.serializeObject = function()
+	{
+	    var o = {};
+	    var a = this.serializeArray();
+	    $.each(a, function() {
+	        if (o[this.name] !== undefined) {
+	            if (!o[this.name].push) {
+	                o[this.name] = [o[this.name]];
+	            }
+	            o[this.name].push(this.value || null);
+	        } else {
+	            o[this.name] = this.value || null;
+	        }
+	    });
+	    return o;
+	};
 	
+});
+
+$('#testFinish').on('click',function(){
+	var selectedAnswers= new Array();
+	$('input[type=radio]:checked', '#form').each(function(index, value){			
+		var answer ={};
+		answer.qid = $(this).attr('qid');
+		answer.score = value.value;
+		answer.option = $(this).attr('ansid');
+		answer.questionType = $(this).attr('qtype');
+		selectedAnswers.push(answer);
+	});
 	
+	var reqData ={userid:$('#userid').val(), testid:$('#testid').val(), testTypeId:$('#testtypeid').val(), questions:selectedAnswers};	
+	var URL = getContextPath()+"saveTestResult";
+	  $.ajax({
+		    type: "POST",
+		    url: URL,
+		    contentType: "application/json",
+		    data: JSON.stringify(reqData),
+		    success: function(data)
+		    {       	
+						
+					if(data.successMsg == 'success'){
+						window.location.href=getContextPath()+"testresult/"+data.testtypeid+'/'+data.score;
+					}	
+			        	
+		 	   
+		    },
+		    error: function (xhr, ajaxOptions, thrownError) {
+		 	  
+		    }
+		  });
 });
 
 function exit(){

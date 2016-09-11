@@ -78,7 +78,7 @@ public class Testhistory implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "testdetail_id", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "testdetail_id", nullable = false)
 	public Testdetail getTestdetail() {
 		return this.testdetail;
 	}
