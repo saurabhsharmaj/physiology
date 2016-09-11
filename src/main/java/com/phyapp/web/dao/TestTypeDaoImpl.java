@@ -20,6 +20,7 @@ public class TestTypeDaoImpl implements TestTypeDao {
 	
 	public List<Testtype> getList() {
 		Criteria criteria = getSession().createCriteria(Testtype.class);
+		criteria.add(Restrictions.eq("status", 0));
 		return criteria.list();
 	}
 
@@ -51,6 +52,13 @@ public class TestTypeDaoImpl implements TestTypeDao {
 		Session session = getSession();
 		session.delete(testType);
 		
+	}
+
+	public Testtype isTestTypeAvailable(Testtype testType) {
+		Criteria criteria = getSession().createCriteria(Testtype.class);
+		criteria.add(Restrictions.eq("testName", testType.getTestName()));
+		criteria.add(Restrictions.eq("status", 0));
+		return (Testtype)criteria.uniqueResult();
 	}
 	
 }

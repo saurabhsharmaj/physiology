@@ -29,6 +29,12 @@ public class Testtype implements java.io.Serializable {
 
 	public Testtype() {
 	}
+	
+	public Testtype(String testName) {
+		this.testName = testName;
+		this.description= "NA";
+		this.status= 0;
+	}
 
 	public Testtype(String testName, String description, Integer status, Set<TesttypeHasQuestion> testtypeHasQuestions,
 			Set<Testhistory> testhistories, Set<Testdetail> testdetails) {

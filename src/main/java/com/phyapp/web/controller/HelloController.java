@@ -1,6 +1,7 @@
 package com.phyapp.web.controller;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -56,8 +57,8 @@ public class HelloController {
 	
 	@Autowired
 	QuestionService questionService;
-	
-	@RequestMapping(value = { "/", "/home**" }, method = RequestMethod.GET)
+		
+	@RequestMapping(value = {"/home**" }, method = RequestMethod.GET)
 	public ModelAndView welcomePage() {
 
 		ModelAndView model = new ModelAndView();
@@ -199,7 +200,10 @@ public class HelloController {
     public String startTest(@PathVariable(value="userid") Integer userId,@PathVariable(value="testtypeid") Integer testTypeId,ModelMap model) {     	
     	model.addAttribute("userdetail",userService.getUserDetailById(userId));
     	model.addAttribute("testType",testTypeService.getTestTypeById(testTypeId));	
-		return "questionPage";
+    	List<Question> questionList = questionService.getListByTestType(testTypeId);    	
+    	model.addAttribute("questions",questionList);
+    	model.addAttribute("totalQuestion",questionList.size());
+    	return "questionPage";
     }
     
     private Login getLoginDetails(){
@@ -272,7 +276,7 @@ public class HelloController {
 			multipartFile.transferTo(convFile);
 			
 			Map<String, Object> map = PhysiologyUtils.readExcelData(convFile);
-			String response = PhysiologyUtils.uploadQuestionAnswer(map);
+			String response = PhysiologyUtils.uploadQuestionAnswer(testTypeService,questionService, map);
 			jsonObject.addProperty("result", "Successfully uploaded ["+response+"].");
 			return jsonObject.toString();
 		} catch (Exception e) {

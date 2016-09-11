@@ -10,4 +10,5 @@ public interface TestTypeDao {
 	Integer saveTestType(Testtype testType);
 	Integer updateTestType(Testtype testType);
 	void deleteTestType(Testtype testTypeId);
+	Testtype isTestTypeAvailable(Testtype testType);
 }

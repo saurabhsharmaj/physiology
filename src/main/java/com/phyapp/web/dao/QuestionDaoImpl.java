@@ -12,7 +12,10 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.phyapp.utils.PhysiologyConstants;
+import com.phyapp.web.modal.Answers;
 import com.phyapp.web.modal.Question;
+import com.phyapp.web.modal.Questiontype;
 
 @Component
 public class QuestionDaoImpl implements QuestionDao {
@@ -79,6 +82,19 @@ public class QuestionDaoImpl implements QuestionDao {
 		Criteria criteria = getSession().createCriteria(Question.class);
 		criteria.setProjection(Projections.rowCount());
 		return (Long)criteria.uniqueResult();
+	}
+
+	public Questiontype getDefaultQuestionType() {
+		Criteria criteria = getSession().createCriteria(Questiontype.class);
+		criteria.add(Restrictions.eq("type", PhysiologyConstants.SINGLE_CHOICE));
+		return (Questiontype) criteria.uniqueResult();
+	}
+
+	public Integer saveAnswer(Answers ans) {
+		Session session = getSession();
+		session.save(ans);
+		Serializable id = session.getIdentifier(ans);
+		return Integer.valueOf(id.toString());
 	}
 
 }

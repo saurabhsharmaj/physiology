@@ -8,7 +8,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.phyapp.web.dao.QuestionDao;
+import com.phyapp.web.modal.Answers;
 import com.phyapp.web.modal.Question;
+import com.phyapp.web.modal.Questiontype;
 
 @Service
 public class QuestionServiceImpl implements QuestionService {
@@ -54,5 +56,15 @@ public class QuestionServiceImpl implements QuestionService {
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Long getTotalQuestionByTestType(Integer testType) {
 		return testTypeDao.getTotalQuestionByTestType(testType);
+	}
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Questiontype getDefaultQuestionType() {
+		return testTypeDao.getDefaultQuestionType();
+	}
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Integer saveAnswer(Answers ans) {
+		return testTypeDao.saveAnswer(ans);
 	}
 }

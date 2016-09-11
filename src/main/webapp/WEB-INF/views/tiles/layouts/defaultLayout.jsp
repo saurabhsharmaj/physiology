@@ -33,7 +33,7 @@
 
     </head>
 <body>
-
+	<input type="hidden" id="contextPath" value="${pageContext.request.contextPath}/">
 	<tiles:insertAttribute name="header" />
 	
 	<tiles:insertAttribute name="body" />	
@@ -53,4 +53,10 @@
         <!--[if lt IE 10]>
             <script src="${pageContext.request.contextPath}/assets/js/placeholder.js"></script>
         <![endif]-->
+
+<script>
+function getContextPath(){
+	return $('#contextPath').val();
+}
+</script>
 </html>

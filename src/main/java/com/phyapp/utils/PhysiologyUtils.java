@@ -6,24 +6,89 @@ import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.springframework.context.annotation.Configuration;
 
 import com.phyapp.web.exception.PhysiologyException;
+import com.phyapp.web.modal.Answers;
+import com.phyapp.web.modal.Question;
+import com.phyapp.web.modal.Questiontype;
+import com.phyapp.web.modal.Testtype;
+import com.phyapp.web.service.QuestionService;
+import com.phyapp.web.service.TestTypeService;
 
+@Configuration
 public class PhysiologyUtils {
 
-	public static String uploadQuestionAnswer(Map<String, Object> map ) {
-		// TODO Auto-generated method stub
-		return null;
+	
+	
+	public static String uploadQuestionAnswer(TestTypeService testTypeService, QuestionService queService, Map<String, Object> map ) {
+		//INSERT TEST IF IT IS NOT ALREADY EXISTS.
+		Set<Entry<String, Object>> testList = map.entrySet();
+		for (Entry<String, Object> test : testList) {
+			String testName = test.getKey();
+			System.out.println(testName);
+			Testtype testType = testTypeService.isTestTypeAvailable(new Testtype(testName));
+			if(testType==null){
+				testTypeService.saveTestType(testType);
+			}
+			List<Map<String,String>> questionList = (List<Map<String, String>>) test.getValue();
+			for (Map<String, String> question : questionList) {
+				Question newQuestion = new Question();				
+				
+				Questiontype queType = queService.getDefaultQuestionType();
+				newQuestion.setQuestiontype(queType);
+				newQuestion.setTestType(testType.getId());
+				newQuestion.setQuestion(question.get("question"));
+				queService.saveQuestion(newQuestion);
+				
+				Answers optionA = new Answers();
+				optionA.setQuestion(newQuestion);
+				optionA.setDescription(question.get("optiona"));
+				optionA.setScore(getScore(question,"scorea"));
+				queService.saveAnswer(optionA);
+				
+				Answers optionB = new Answers();
+				optionB.setQuestion(newQuestion);
+				optionB.setDescription(question.get("optionb"));
+				optionB.setScore(getScore(question,"scoreb"));
+				queService.saveAnswer(optionB);
+				
+				Answers optionC = new Answers();
+				optionC.setQuestion(newQuestion);
+				optionC.setDescription(question.get("optionc"));
+				optionC.setScore(getScore(question,"scorec"));
+				queService.saveAnswer(optionC);
+				
+				Answers optionD = new Answers();
+				optionD.setQuestion(newQuestion);
+				optionD.setDescription(question.get("optiond"));
+				optionD.setScore(getScore(question,"scored"));
+				queService.saveAnswer(optionD);
+				
+			}
+		}
+		return "uploaded";
+	}
+
+	private static Integer getScore(Map<String,String> question, String key) {
+		try{
+			return Integer.parseInt(question.get(key));
+		} catch(Exception ex){
+			return 0;
+		}
 	}
 
 	public static Map<String, Object> readExcelData(File excel) throws PhysiologyException {
@@ -36,7 +101,7 @@ public class PhysiologyUtils {
 				try{
 				HSSFSheet sheet = wb.getSheetAt(i);
 				ExcelSheet sheetData = readSheet(excelMap, sheet);
-				excelMap.put(sheetData.getSheetName(),sheetData.getData()); System.out.println(excelMap);
+				excelMap.put(sheetData.getSheetName(),sheetData.getData());
 				}catch(Exception ex){
 					System.err.println("There is some error in read Data from sheet.");
 				}

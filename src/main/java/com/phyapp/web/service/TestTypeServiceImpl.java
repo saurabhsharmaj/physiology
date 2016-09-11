@@ -41,4 +41,9 @@ public class TestTypeServiceImpl implements TestTypeService {
 		testTypeDao.deleteTestType(testTypeId);
 	}
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Testtype isTestTypeAvailable(Testtype testType) {
+		return testTypeDao.isTestTypeAvailable(testType);
+	}
+
 }
