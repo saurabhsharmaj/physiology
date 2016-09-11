@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.phyapp.web.modal.UserDetail;
+import com.phyapp.web.modal.UserRole;
 
 @Component
 public class UserDaoImpl implements UserDao {
@@ -51,6 +52,13 @@ public class UserDaoImpl implements UserDao {
 		Session session = getSession();
 		session.delete(userDetail);
 		
+	}
+
+	public Integer saveUserRole(UserRole userRole) {
+		Session session = getSession();
+		session.save(userRole);
+		Serializable id = session.getIdentifier(userRole);
+		return Integer.valueOf(id.toString());
 	}
 	
 }

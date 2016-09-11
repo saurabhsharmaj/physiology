@@ -40,6 +40,7 @@ import com.phyapp.web.modal.Testdetail;
 import com.phyapp.web.modal.Testhistory;
 import com.phyapp.web.modal.Testtype;
 import com.phyapp.web.modal.UserDetail;
+import com.phyapp.web.modal.UserRole;
 import com.phyapp.web.service.LoginService;
 import com.phyapp.web.service.QuestionService;
 import com.phyapp.web.service.TestDetailService;
@@ -47,6 +48,7 @@ import com.phyapp.web.service.TestTypeService;
 import com.phyapp.web.service.UserService;
 import com.phyapp.web.value.NextQueuestion;
 import com.phyapp.web.value.QuestionAnswer;
+import com.phyapp.web.value.RegistrationVO;
 import com.phyapp.web.value.TestDetailResponse;
 import com.phyapp.web.value.TestResponse;
 
@@ -201,7 +203,51 @@ public class HelloController {
  
     @RequestMapping(value = { "/registration"}, method = RequestMethod.GET)
     public String registrationPage(ModelMap model) {
+//    	model.addAttribute("role", PhysiologyConstants.ROLE_PATIENT);
         return "registrationPage";
+    }
+    
+    @RequestMapping(value = "registration", method = RequestMethod.POST, consumes="application/json", headers = "Accept=application/json",  produces = "application/json")
+   	public @ResponseBody String registrationPage(@RequestBody RegistrationVO regInfo, UriComponentsBuilder ucBuilder) {
+        JsonObject response = new JsonObject();
+    	try{
+    		UserDetail userDetail = new UserDetail();
+    		userDetail.setName(regInfo.getName());
+    		userDetail.setFname(regInfo.getFname());
+    		userDetail.setPhno(regInfo.getContactNo());
+    		userDetail.setAddress(regInfo.getAddress());
+    		userDetail.setSex(Integer.parseInt(regInfo.getGender()));
+    		userDetail.setEducationType(regInfo.getEduType());
+    		userDetail.setEducationMedium(regInfo.getEduMedium());
+    		userDetail.setMaritialStatus(Integer.parseInt(regInfo.getMaritalStatus()));
+    		userDetail.setMonthlyIncome(regInfo.getIncome());
+    		userDetail.setReligion(regInfo.getReligion());
+    		userDetail.setFamilyType(Integer.parseInt(regInfo.getFamilyType()));
+    		userDetail.setBirthorder(Integer.parseInt(regInfo.getBirthOrder()));
+    		userDetail.setLocality(regInfo.getLocality());
+    		
+    		userService.saveUserDetail(userDetail);
+    		
+    		UserRole userRole= new UserRole();
+    		userRole.setUsername(regInfo.getUsername());
+    		userRole.setRole(regInfo.getRole());
+    		userService.saveUserRole(userRole);
+    		
+    		Login login = new Login();
+    		login.setUserDetail(userDetail);
+    		login.setStatus(PhysiologyConstants.ACTIVE);
+    		login.setUsername(regInfo.getUsername());
+    		login.setPassword(regInfo.getPassword());
+    		loginService.saveLoginDetail(login);
+    		
+    		
+    		response.addProperty("successMsg", "success");
+			response.addProperty("errorMsg", "");
+    	}catch(Exception ex){
+   			response.addProperty("successMsg", "");
+			response.addProperty("errorMsg",  "error: "+ex.getMessage());
+   		}
+		return response.toString();
     }
     
     @RequestMapping(value = { "/resetpassword"}, method = RequestMethod.GET)
@@ -285,18 +331,7 @@ public class HelloController {
 		return response.toString();
     }
     
-    public static void main(String[] args) {
-		/*//{"userid":2,"testid":367,"questions":[{"qid":1,"score":2,"option":3},{"qid":3,"score":4,"option":5}]}
-    	//{"userid":"2","testid":"370","questions":["{qid:1,score:0, option:2}","{qid:2,score:10, option:5}","{qid:3,score:20, option:9}"]}
-    	TestResponse testResponse = new TestResponse();
-		testResponse.setUserid(2);
-		testResponse.setTestid(367);
-		QuestionAnswer [] queAns = new QuestionAnswer[]{new QuestionAnswer(1,2,3),new QuestionAnswer(3,4,5)};
-		testResponse.setQuestions(queAns);
-		Gson gson = new Gson();
-		System.out.println(gson.toJson(testResponse));*/
-	}
-    
+     
     private Login getLoginDetails(){
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		return loginService.getLoginDetailByUserName(auth.getName());

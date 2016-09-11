@@ -25,10 +25,10 @@
 							<h4 class="white heading small-pt">20% Discount</h4>
 							<div class="schedule-row row">
 									<div class="col-xs-6">
-										<a href="#" class="btn btn-white-fill expand">Register</a>
+										<a href="${pageContext.request.contextPath}/registration" class="btn btn-white-fill expand">Register</a>
 									</div>
 									<div class="col-xs-6 text-right">
-										<a href="#" data-toggle="modal" data-target="#loginModal" class="btn btn-white-fill expand">Login</a>
+										<a href="${pageContext.request.contextPath}/login" class="btn btn-white-fill expand">Login</a>
 									</div>
 								</div>
 						</div>
@@ -43,10 +43,10 @@
 							<h4 class="white heading small-pt">20% Discount</h4>
 							<div class="schedule-row row">
 									<div class="col-xs-6">
-										<a href="#" class="btn btn-white-fill expand">Register</a>
+										<a href="${pageContext.request.contextPath}/registration?role=ROLE_DOCTOR" class="btn btn-white-fill expand">Register</a>
 									</div>
 									<div class="col-xs-6 text-right">
-										<a href="#" data-toggle="modal" data-target="#loginModal" class="btn btn-white-fill expand">Login</a>
+										<a href="${pageContext.request.contextPath}/login" class="btn btn-white-fill expand">Login</a>
 									</div>
 								</div>
 						</div>

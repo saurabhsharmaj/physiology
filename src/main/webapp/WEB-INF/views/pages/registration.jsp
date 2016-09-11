@@ -1,12 +1,13 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<script src="${pageContext.request.contextPath}/resources/js/jquery-1.11.1.min.js"></script>
 <div class="top-content">
-        	
-            <div class="inner-bg">
+			<div class="inner-bg">
                 <div class="container">                    
                     <div class="row">
                         <div class="col-sm-6 col-sm-offset-3 form-box">
                         	
-                        	<form role="form" action="" method="post" class="registration-form">
-                        		
+                        	<form role="form" id="registrationform" method="post" class="registration-form">
                         		<fieldset>
 		                        	<div class="form-top">
 		                        		<div class="form-top-left">
@@ -18,6 +19,14 @@
 		                        		</div>
 		                            </div>
 		                            <div class="form-bottom">
+		                            	<div class="form-group">
+				                    		<label class="sr-only" for="role">Role</label>
+				                        	<select name="role" class="name form-control" >
+				                        		<option value="ROLE_PATIENT" selected="selected">ROLE PATIENT</option>
+				                        		<option value="ROLE_DOCTOR" >ROLE DOCTOR</option>
+				                        	</select>
+				                        </div>
+				                        
 				                    	<div class="form-group">
 				                    		<label class="sr-only" for="name">Name</label>
 				                        	<input type="text" name="name" placeholder="Name..." class="name form-control" id="name">
@@ -203,7 +212,7 @@
 				                        </div>
 				                        
 				                        <button type="button" class="btn btn-previous">Previous</button>
-				                        <button type="submit" class="btn">Registered</button>
+				                        <button type="button" id="registrationBtn" class="btn">Registered</button>
 				                    </div>
 			                    </fieldset>
 		                    
@@ -215,3 +224,50 @@
             </div>
             
         </div>
+        
+<script>
+
+$( document ).ready(function() {
+	$.fn.serializeObject = function()
+	{
+	    var o = {};
+	    var a = this.serializeArray();
+	    $.each(a, function() {
+	        if (o[this.name] !== undefined) {
+	            if (!o[this.name].push) {
+	                o[this.name] = [o[this.name]];
+	            }
+	            o[this.name].push(this.value || null);
+	        } else {
+	            o[this.name] = this.value || null;
+	        }
+	    });
+	    return o;
+	};
+	
+});
+
+$('#registrationBtn').on('click',function(){
+	
+	
+	var URL = getContextPath()+"registration";
+	  $.ajax({
+		    type: "POST",
+		    url: URL,
+		    contentType: "application/json",
+		    data: JSON.stringify($('#registrationform').serializeObject()),
+		    success: function(data)
+		    {       	
+						
+					if(data.successMsg == 'success'){
+						window.location.href=getContextPath()+"homePage?success=register";
+					}	
+			        	
+		 	   
+		    },
+		    error: function (xhr, ajaxOptions, thrownError) {
+		 	  
+		    }
+		  });
+});
+</script>

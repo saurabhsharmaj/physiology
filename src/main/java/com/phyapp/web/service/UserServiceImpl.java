@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.phyapp.web.dao.UserDao;
 import com.phyapp.web.modal.UserDetail;
+import com.phyapp.web.modal.UserRole;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -39,5 +40,10 @@ public class UserServiceImpl implements UserService {
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = false)
 	public void deleteUserDetail(UserDetail testTypeId) {
 		testTypeDao.deleteUserDetail(testTypeId);
+	}
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Integer saveUserRole(UserRole userRole) {
+		return testTypeDao.saveUserRole(userRole);
 	}	
 }

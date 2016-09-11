@@ -7,5 +7,7 @@ public class PhysiologyConstants {
 	public static final String ROLE_ADMIN = "ROLE_ADMIN";
 	public static final String ROLE_DOCTOR = "ROLE_DOCTOR";
 	public static final String ROLE_PATIENT = "ROLE_PATIENT";
+	public static final Integer ACTIVE = 1;
+	public static final Integer DEACTIVE = 0;
 
 }
