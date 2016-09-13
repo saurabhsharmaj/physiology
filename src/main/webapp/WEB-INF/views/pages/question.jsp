@@ -25,7 +25,7 @@
 		                        		
 		                        		<div class="row">
 										    <div class="col-sm-9">
-										      <p style="padding-top: 45px;">${loop.index + 1} / ${totalQuestion} [${testType.testName}]</p>
+										      <p class="panel-heading">${loop.index + 1} / ${totalQuestion} [${testType.testName}]</p>
 										    </div>
 										    <div class="col-sm-3">
 										      <div class="form-top-right">

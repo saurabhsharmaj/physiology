@@ -9,6 +9,7 @@ h6 {
 	font-family: 'Roboto', 'Avenir Next', 'Helvetica Neue', 'Segoe UI', Helvetica, Arial, sans-serif;
 	position: relative;
 	margin: 10px 0;
+	    color: #FFF;
 }
 
 h1 {
@@ -16,7 +17,7 @@ h1 {
 }
 
 h2 {
-	font-size: 48px;
+	font-weight: 300;
 }
 
 h3 {
@@ -198,19 +199,22 @@ section {
 .intro-table-hover {
 	-webkit-transition: background-image 0.3s ease, background-position 0.3s;
 	transition: background-image 0.3s ease, background-position 0.3s;
-	background-image: url('/physiology/resources/img/table-2.jpg');
+	/* background-image: url('/physiology/resources/img/table-2.jpg'); */
+	background:#122d32;
 }
 
 .intro-student-hover {
 	-webkit-transition: background-image 0.3s ease, background-position 0.3s;
 	transition: background-image 0.3s ease, background-position 0.3s;
-	background-image: url('/physiology/resources/img/table-student.jpg');
+	/* background-image: url('/physiology/resources/img/table-student.jpg'); */
+	background:#122d32;
 }
 
 .intro-doctor-table-hover {
 	-webkit-transition: background-image 0.3s ease, background-position 0.3s;
 	transition: background-image 0.3s ease, background-position 0.3s;
-	background-image: url('/physiology/resources/img/table-doctor.jpg');
+	/* background-image: url('/physiology/resources/img/table-doctor.jpg'); */
+	background:#122d32;
 }
 
 .intro-table-hover h4 {
@@ -221,18 +225,21 @@ section {
 }
 
 .intro-table-hover:hover {
-	background-image: url('/physiology/resources/img/table-2-hover.jpg');
+	/* background-image: url('/physiology/resources/img/table-2-hover.jpg'); */
+	background:#122d32;
 	background-position: 50% 50%;
 }
 
 
 .intro-student-hover:hover {
-	background-image: url('/physiology/resources/img/table-student-hover.jpg');
+	/* background-image: url('/physiology/resources/img/table-student-hover.jpg'); */
+	background:#122d32;
 	background-position: 50% 50%;
 }
 
 .intro-doctor-table-hover:hover {
-	background-image: url('/physiology/resources/img/table-doctor-hover.jpg');
+	/* background-image: url('/physiology/resources/img/table-doctor-hover.jpg'); */
+	background:#122d32;
 	background-position: 50% 50%;
 }
 
@@ -356,7 +363,7 @@ section {
 	border: 1px solid #ddd;
 	-webkit-transition: all 0.3s ease;
 	transition: all 0.3s ease;
-	background: #ddd;
+	background: #122d32;
 }
 
 .service .icon-holder {
@@ -372,6 +379,7 @@ section {
 
 .service .heading {
 	position: relative;
+	color: #FFF;
 	top: 80px;
 	-webkit-transition: all 600ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
 	transition: all 600ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
@@ -864,7 +872,7 @@ section {
 		font-size: 36px;
 	}
 	h2 {
-		font-size: 28px;
+		font-weight: 300;
 	}
 	h3 {
 		font-size: 24px;
@@ -964,4 +972,32 @@ td,th{
 
 .table td,th {
    text-align: center;   
+}
+
+.header{
+	position: fixed;
+    z-index: 999999999999;
+    background: #122d32;
+    width: 100%;
+	border: 1px solid #FFF;
+}
+
+.heading-text{
+	padding-top: 15px;
+    color: #fff;
+    float: left;
+    font-weight: inherit;
+}
+
+.panel-heading{
+	    padding-top: 45px;
+    float: left;
+}
+
+footer{
+    z-index: 999999999999;
+    background: #122d32;
+    width: 100%;
+    border: 1px solid #FFF;
+    color: #FFF;
 }

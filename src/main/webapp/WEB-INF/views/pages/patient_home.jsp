@@ -4,8 +4,8 @@
 <section id="services" class="section section-padded">
 		<div class="container">
 			<div class="row text-center title">
-				<h2>Test Types</h2>
-				<h4 class="light muted">Select Test, Which one you want to take now</h4>
+				<h2 class="white typed">Test Types</h2>
+				<h4 class="white typed">Select Test, Which one you want to take now</h4>
 			</div>
 			<div class="row services">
 				<c:forEach items="${testTypes}" var="testType">
