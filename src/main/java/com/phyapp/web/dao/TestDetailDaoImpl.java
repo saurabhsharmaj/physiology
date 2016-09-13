@@ -4,10 +4,10 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -33,12 +33,14 @@ public class TestDetailDaoImpl implements TestDetailDao {
 	public Testdetail getTestDetailById(Integer userId) {
 		Criteria criteria = getSession().createCriteria(Testdetail.class);
 		criteria.add(Restrictions.eq("id", userId));
+		criteria.setFetchMode("testhistories", FetchMode.JOIN);
+		criteria.setFetchMode("testtype", FetchMode.JOIN);
 		return (Testdetail) criteria.uniqueResult();
 	}
 
 	public Integer saveTestDetail(Testdetail testDetail) {
 		Session session = getSession();
-		session.save(testDetail);
+		session.saveOrUpdate(testDetail);
 		Serializable id = session.getIdentifier(testDetail);
 		return Integer.valueOf(id.toString());
 	}
@@ -90,5 +92,22 @@ public class TestDetailDaoImpl implements TestDetailDao {
 		query.setParameter("testTypeId", testTypeId);
 		Testdetail result = (Testdetail) query.uniqueResult();		
 		return result;
+	}
+
+	@Override
+	public List<Testdetail> getTestDetailByUserId(Integer userid) {
+		Criteria criteria = getSession().createCriteria(Testdetail.class);
+		criteria.add(Restrictions.eq("userDetail.id", userid));
+		criteria.setFetchMode("testhistories", FetchMode.JOIN);
+		criteria.setFetchMode("testtype", FetchMode.JOIN);
+		return (List<Testdetail>) criteria.list();
+	}
+
+	@Override
+	public List<Testdetail> getAllTestDetailByUserIdAndTestType(Integer userId, Integer testTypeId) {
+		Criteria criteria = getSession().createCriteria(Testdetail.class);
+		criteria.add(Restrictions.eq("userDetail.id", userId));
+		criteria.add(Restrictions.eq("testtype.id", testTypeId));
+		return criteria.list();
 	}
 }

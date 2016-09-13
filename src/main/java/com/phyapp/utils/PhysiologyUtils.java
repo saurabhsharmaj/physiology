@@ -5,8 +5,8 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -20,6 +20,8 @@ import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 
 import com.phyapp.web.exception.PhysiologyException;
 import com.phyapp.web.modal.Answers;
@@ -33,15 +35,61 @@ import com.phyapp.web.service.TestTypeService;
 public class PhysiologyUtils {
 
 	
+	public static String determineTargetUrl(Authentication authentication) {
+        String url = "";
+ 
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+ 
+        List<String> roles = new ArrayList<String>();
+ 
+        for (GrantedAuthority a : authorities) {
+            roles.add(a.getAuthority());
+        }
+ 
+        if (isAdmin(roles)) {
+            url = "/admin";
+        }  else if (isDoctor(roles)) {
+            url = "/doctorHome";
+        } else if (isPatient(roles)) {
+            url = "/patientHome";
+        } else {
+            url = "/accessDenied";
+        }
+ 
+        return url;
+    }
+	
+	 private static boolean isDoctor(List<String> roles) {
+	        if (roles.contains("ROLE_DOCTOR")) {
+	            return true;
+	        }
+	        return false;
+	    }
+	 
+	    private static boolean isAdmin(List<String> roles) {
+	        if (roles.contains("ROLE_ADMIN")) {
+	            return true;
+	        }
+	        return false;
+	    }
+	 
+	    private static  boolean isPatient(List<String> roles) {
+	        if (roles.contains("ROLE_PATIENT")) {
+	            return true;
+	        }
+	        return false;
+	    }
 	
 	public static String uploadQuestionAnswer(TestTypeService testTypeService, QuestionService queService, Map<String, Object> map ) {
 		//INSERT TEST IF IT IS NOT ALREADY EXISTS.
-		Set<Entry<String, Object>> testList = map.entrySet();
+		Set<Entry<String, Object>> testList = map.entrySet();System.out.println(testList);
 		for (Entry<String, Object> test : testList) {
 			String testName = test.getKey();
 			System.out.println(testName);
+			
 			Testtype testType = testTypeService.isTestTypeAvailable(new Testtype(testName));
 			if(testType==null){
+				testType = new Testtype(testName);
 				testTypeService.saveTestType(testType);
 			}
 			List<Map<String,String>> questionList = (List<Map<String, String>>) test.getValue();

@@ -45,6 +45,9 @@ public class QuestionDaoImpl implements QuestionDao {
 	public Question getQuestionById(Integer questionId) {
 		Criteria criteria = getSession().createCriteria(Question.class);
 		criteria.add(Restrictions.eq("id", questionId));
+		criteria.setFetchMode("questiontype", FetchMode.JOIN);
+		criteria.setFetchMode("answerses", FetchMode.JOIN);
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		return (Question) criteria.uniqueResult();
 	}
 

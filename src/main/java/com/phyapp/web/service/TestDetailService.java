@@ -15,4 +15,6 @@ public interface TestDetailService {
 	Integer saveTestHistory(Testhistory testhistory);
 	List<Testdetail> getLatestList();
 	Testdetail getLatestTestDetailByUserIdAndTestType(Integer id, Integer id2);
+	List<Testdetail> getTestDetailByUserId(Integer userid);
+	List<Testdetail> getAllTestDetailByUserIdAndTestType(Integer userid, Integer testtypeid);
 }

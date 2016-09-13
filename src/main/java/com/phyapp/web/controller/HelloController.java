@@ -3,10 +3,12 @@ package com.phyapp.web.controller;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -69,7 +71,7 @@ public class HelloController {
 	
 	@Autowired
 	QuestionService questionService;
-		
+	
 	@RequestMapping(value = {"/home**" }, method = RequestMethod.GET)
 	public ModelAndView welcomePage() {
 
@@ -131,6 +133,34 @@ public class HelloController {
 		return model;
 
 	}
+	
+	
+	
+	@RequestMapping(value = "/testdetail/{testDetailId}", method = RequestMethod.GET)
+    public String testDetailPage(@PathVariable(value="testDetailId") Integer testDetailId, ModelMap model) {
+		Testdetail testdetail = testDetailService.getTestDetailById(testDetailId);
+		List<Map<Question,Testhistory>> questionList = new ArrayList<Map<Question,Testhistory>>();
+		for (Testhistory testhistory : testdetail.getTesthistories()) {
+			Map<Question,Testhistory> map = new HashMap<Question,Testhistory>();
+			Question question = questionService.getQuestionById(testhistory.getQuestionId());			
+			map.put(question, testhistory);
+			questionList.add(map);
+		}
+		model.addAttribute("userdetail",testdetail.getUserDetail());
+		model.addAttribute("testType", testdetail.getTesttype());
+		model.addAttribute("totalQuestion",testdetail.getTesthistories().size());
+		model.addAttribute("questionList",questionList);
+		model.addAttribute("targetURL", PhysiologyUtils.determineTargetUrl(SecurityContextHolder.getContext().getAuthentication()));
+		return "testDetailPage";
+    }
+	
+	@RequestMapping(value = "/testdetail/all/{userid}/{testtypeid}", method = RequestMethod.GET)
+    public String testDetailByUserIdPage(@PathVariable(value="userid") Integer userid,@PathVariable(value="testtypeid") Integer testtypeid, ModelMap model) {
+		List<Testdetail> testdetails = testDetailService.getAllTestDetailByUserIdAndTestType(userid, testtypeid);
+		model.addAttribute("testdetails",testdetails);
+		model.addAttribute("targetURL", PhysiologyUtils.determineTargetUrl(SecurityContextHolder.getContext().getAuthentication()));
+		return "allTestDetailByUserIdPage";
+    }
 	
 	@RequestMapping(value = "/patientHome", method = RequestMethod.GET)
 	public ModelAndView patientHome() {
@@ -286,6 +316,7 @@ public class HelloController {
     public String testResult(@PathVariable(value="testtypeid") Integer testtypeid, @PathVariable(value="score") Integer score,ModelMap model) {    	
     	model.addAttribute("testType",testTypeService.getTestTypeById(testtypeid));
     	model.addAttribute("score", score);
+    	model.addAttribute("targetURL", PhysiologyUtils.determineTargetUrl(SecurityContextHolder.getContext().getAuthentication()));
     	return "resultPage";
     }
     
@@ -296,9 +327,7 @@ public class HelloController {
    		try {
    			System.out.println(test.getUserid());
    			System.out.println(test.getTestid());
-   			System.out.println(test.getQuestions());
-   			//Insert the option again the testId.
-   			//Update the total Score & Return score.
+   			System.out.println(test.getQuestions());   			
    			Testdetail testDetail =  testDetailService.getTestDetailById(test.getTestid());
    			UserDetail userDetail = userService.getUserDetailById(test.getUserid());
    			Testtype testtype = testTypeService.getTestTypeById(test.getTestTypeId());

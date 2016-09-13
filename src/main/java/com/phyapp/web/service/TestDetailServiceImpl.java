@@ -74,4 +74,14 @@ public class TestDetailServiceImpl implements TestDetailService {
 	public Testdetail getLatestTestDetailByUserIdAndTestType(Integer userId, Integer testTypeId) {
 		return testDetailDao.getLatestTestDetailByUserIdAndTestType(userId, testTypeId);
 	}
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Testdetail> getTestDetailByUserId(Integer userid) {
+		return testDetailDao.getTestDetailByUserId(userid);
+	}
+
+	@Override
+	public List<Testdetail> getAllTestDetailByUserIdAndTestType(Integer userId, Integer testTypeId) {
+		return testDetailDao.getAllTestDetailByUserIdAndTestType(userId, testTypeId);
+	}
 }

@@ -14,4 +14,6 @@ public interface TestDetailDao {
 	Integer saveTestHistory(Testhistory testhistory);
 	List<Testdetail> getLatestList();
 	Testdetail getLatestTestDetailByUserIdAndTestType(Integer userId, Integer testTypeId);
+	List<Testdetail> getTestDetailByUserId(Integer userid);
+	List<Testdetail> getAllTestDetailByUserIdAndTestType(Integer userId, Integer testTypeId);
 }

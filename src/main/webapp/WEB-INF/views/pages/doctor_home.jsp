@@ -37,7 +37,8 @@
 							  	   				<c:choose>
 												  <c:when test="${not empty entry.value.score}">
 												   <%--  <c:out value="${entry.key}"/> / --%>
-										  	   		<c:out value="${entry.value.score}"/>
+										  	   		<a href="${pageContext.request.contextPath}/testdetail/${entry.value.id}"><c:out value="${entry.value.score}"/></a>
+										  	   		&nbsp;<a href="${pageContext.request.contextPath}/testdetail/all/${testDetail.userDetail.id}/${entry.value.testtype.id}">...</a>
 												  </c:when>									  
 												  <c:otherwise>
 												  	 0

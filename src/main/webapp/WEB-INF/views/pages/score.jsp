@@ -18,7 +18,7 @@
 		                        		</div>
 		                            </div>
 		                            <div class="form-bottom">
-				                    	<a href="#">Back</a>
+				                    	<button type="button"  url="${targetURL}" onclick="redirect(this);" class="btn btn-previous">Previous</button>
 				                    </div>
 			                    </fieldset>	                    
 		                    
@@ -28,3 +28,8 @@
             </div>
             
         </div>
+<script>
+	function redirect(ref){
+		window.location.href=getContextPath() + $(ref).attr('url');
+	}
+</script>
