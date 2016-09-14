@@ -299,6 +299,7 @@ section {
 .intro-tables .intro-table .bottom {
 	position: absolute;
 	bottom: 0;
+	padding-left: 15%;
 }
 
 .intro-tables .intro-table .owl-schedule .schedule-row {
@@ -1000,4 +1001,12 @@ footer{
     width: 100%;
     border: 1px solid #FFF;
     color: #FFF;
+}
+
+.more-score{
+	float:right;
+}
+
+.form-bottom {
+    border-bottom: 1px solid white;
 }

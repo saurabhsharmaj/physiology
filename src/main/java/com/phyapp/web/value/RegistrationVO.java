@@ -1,6 +1,7 @@
 package com.phyapp.web.value;
 
 public class RegistrationVO {
+	String id;
 	String role;
 	String name;
 	String fname;
@@ -21,6 +22,13 @@ public class RegistrationVO {
 	String password;
 	
 	
+	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public String getRole() {
 		return role;
 	}

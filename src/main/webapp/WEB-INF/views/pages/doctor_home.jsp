@@ -29,7 +29,7 @@
 					<c:forEach var="testDetail" items="${testResults}" varStatus="tdetail">
 						<tr>
 							<td>${tdetail.index + 1 }</td>
-							<td>${ testDetail.userDetail.name}</td>
+							<td><a href="${pageContext.request.contextPath}/userdetail/${ testDetail.userDetail.id}">${ testDetail.userDetail.name}</a></td>
 							<c:forEach var="entry" items="${testDetail.testResults}">
 							  <td>
 							  	   <c:choose>
@@ -38,7 +38,7 @@
 												  <c:when test="${not empty entry.value.score}">
 												   <%--  <c:out value="${entry.key}"/> / --%>
 										  	   		<a href="${pageContext.request.contextPath}/testdetail/${entry.value.id}"><c:out value="${entry.value.score}"/></a>
-										  	   		&nbsp;<a href="${pageContext.request.contextPath}/testdetail/all/${testDetail.userDetail.id}/${entry.value.testtype.id}" title="previous test socre">...</a>
+										  	   		&nbsp;<a class="more-score" href="${pageContext.request.contextPath}/testdetail/all/${testDetail.userDetail.id}/${entry.value.testtype.id}" title="previous test socre"> click for more...</a>
 												  </c:when>									  
 												  <c:otherwise>
 												  	 0

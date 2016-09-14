@@ -7,6 +7,7 @@ import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,7 @@ public class QuestionDaoImpl implements QuestionDao {
 		criteria.setFetchMode("questiontype", FetchMode.JOIN);
 		criteria.setFetchMode("answerses", FetchMode.JOIN);
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		criteria.addOrder(Order.asc("id"));
 		return criteria.list();
 	}
 	
@@ -53,7 +55,7 @@ public class QuestionDaoImpl implements QuestionDao {
 
 	public Integer saveQuestion(Question question) {
 		Session session = getSession();
-		session.save(question);
+		session.saveOrUpdate(question);
 		Serializable id = session.getIdentifier(question);
 		return Integer.valueOf(id.toString());
 	}
@@ -95,7 +97,7 @@ public class QuestionDaoImpl implements QuestionDao {
 
 	public Integer saveAnswer(Answers ans) {
 		Session session = getSession();
-		session.save(ans);
+		session.saveOrUpdate(ans);
 		Serializable id = session.getIdentifier(ans);
 		return Integer.valueOf(id.toString());
 	}

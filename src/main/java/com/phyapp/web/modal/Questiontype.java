@@ -1,15 +1,18 @@
 package com.phyapp.web.modal;
 // Generated Aug 27, 2016 8:17:55 PM by Hibernate Tools 4.3.1.Final
 
-import java.util.HashSet;
-import java.util.Set;
+import static javax.persistence.GenerationType.IDENTITY;
+
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 /**
@@ -22,13 +25,13 @@ public class Questiontype implements java.io.Serializable {
 	private Integer id;
 	private Integer type;
 	private String description;
-	private Set<Question> questions = new HashSet<Question>(0);
-	private Set<Testhistory> testhistories = new HashSet<Testhistory>(0);
+	private List<Question> questions = new LinkedList<Question>();
+	private List<Testhistory> testhistories = new LinkedList<Testhistory>();
 
 	public Questiontype() {
 	}
 
-	public Questiontype(Integer type, String description, Set<Question> questions, Set<Testhistory> testhistories) {
+	public Questiontype(Integer type, String description, List<Question> questions, List<Testhistory> testhistories) {
 		this.type = type;
 		this.description = description;
 		this.questions = questions;
@@ -66,20 +69,22 @@ public class Questiontype implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "questiontype")
-	public Set<Question> getQuestions() {
+	@OrderBy("id")
+	public List<Question> getQuestions() {
 		return this.questions;
 	}
 
-	public void setQuestions(Set<Question> questions) {
+	public void setQuestions(List<Question> questions) {
 		this.questions = questions;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "questiontype")
-	public Set<Testhistory> getTesthistories() {
+	@OrderBy("id")
+	public List<Testhistory> getTesthistories() {
 		return this.testhistories;
 	}
 
-	public void setTesthistories(Set<Testhistory> testhistories) {
+	public void setTesthistories(List<Testhistory> testhistories) {
 		this.testhistories = testhistories;
 	}
 

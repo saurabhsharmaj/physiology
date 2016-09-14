@@ -23,13 +23,18 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
+import com.google.gson.Gson;
 import com.phyapp.web.exception.PhysiologyException;
 import com.phyapp.web.modal.Answers;
+import com.phyapp.web.modal.Login;
 import com.phyapp.web.modal.Question;
 import com.phyapp.web.modal.Questiontype;
 import com.phyapp.web.modal.Testtype;
+import com.phyapp.web.modal.UserDetail;
+import com.phyapp.web.modal.UserRole;
 import com.phyapp.web.service.QuestionService;
 import com.phyapp.web.service.TestTypeService;
+import com.phyapp.web.value.RegistrationVO;
 
 @Configuration
 public class PhysiologyUtils {
@@ -207,6 +212,35 @@ public class PhysiologyUtils {
 			rowData.add(cell.getStringCellValue());
 		}
 		return rowData;
+	}
+
+	public static RegistrationVO getRegistrationDetail(UserDetail userDetail, UserRole userRole, Login loginDetail) {
+		RegistrationVO registrationVO = new RegistrationVO();
+		registrationVO.setRole(userRole.getRole());
+		registrationVO.setId(userDetail.getId()==null?null:userDetail.getId().toString());
+		registrationVO.setName(userDetail.getName());
+		registrationVO.setFname(userDetail.getFname());
+		registrationVO.setContactNo(userDetail.getMobileno());
+		registrationVO.setAddress(userDetail.getAddress());
+		registrationVO.setAge(userDetail.getAge()==null?"":userDetail.getAge().toString());
+		registrationVO.setGender(userDetail.getSex()==null?"":userDetail.getSex().toString());
+		registrationVO.setEduType(userDetail.getEducationType());
+		registrationVO.setEduMedium(userDetail.getEducationMedium());
+		registrationVO.setMaritalStatus(userDetail.getMaritialStatus()==null?"":userDetail.getMaritialStatus().toString());
+		registrationVO.setIncome(userDetail.getMonthlyIncome());
+		registrationVO.setReligion(userDetail.getReligion());
+		registrationVO.setFamilyType(userDetail.getFamilyType()==null?"":userDetail.getFamilyType().toString());
+		registrationVO.setBirthOrder(userDetail.getBirthorder()==null?"":userDetail.getBirthorder().toString());
+		registrationVO.setLocality(userDetail.getLocality());		
+		
+		registrationVO.setUsername(loginDetail.getUsername());
+		registrationVO.setPassword(loginDetail.getPassword());
+		return registrationVO;
+	}
+
+	public static String toJSON(RegistrationVO registrationVO) {
+		Gson gson = new Gson();
+		return gson.toJson(registrationVO);
 	}
 
 }

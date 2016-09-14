@@ -1,17 +1,20 @@
 package com.phyapp.web.modal;
 // Generated Aug 27, 2016 8:17:55 PM by Hibernate Tools 4.3.1.Final
 
-import java.util.HashSet;
-import java.util.Set;
+import static javax.persistence.GenerationType.IDENTITY;
+
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 /**
@@ -25,8 +28,8 @@ public class Question implements java.io.Serializable {
 	private Questiontype questiontype;
 	private Integer testType;
 	private String question;
-	private Set<Answers> answerses = new HashSet<Answers>(0);
-	private Set<TesttypeHasQuestion> testtypeHasQuestions = new HashSet<TesttypeHasQuestion>(0);
+	private List<Answers> answerses = new LinkedList<Answers>();
+	private List<TesttypeHasQuestion> testtypeHasQuestions = new LinkedList<TesttypeHasQuestion>();
 
 	public Question() {
 	}
@@ -35,8 +38,8 @@ public class Question implements java.io.Serializable {
 		this.questiontype = questiontype;
 	}
 
-	public Question(Questiontype questiontype, Integer testType, String question, Set<Answers> answerses,
-			Set<TesttypeHasQuestion> testtypeHasQuestions) {
+	public Question(Questiontype questiontype, Integer testType, String question, List<Answers> answerses,
+			List<TesttypeHasQuestion> testtypeHasQuestions) {
 		this.questiontype = questiontype;
 		this.testType = testType;
 		this.question = question;
@@ -87,20 +90,22 @@ public class Question implements java.io.Serializable {
 	
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "question")
-	public Set<TesttypeHasQuestion> getTesttypeHasQuestions() {
+	@OrderBy("id")
+	public List<TesttypeHasQuestion> getTesttypeHasQuestions() {
 		return this.testtypeHasQuestions;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "question")
-	public Set<Answers> getAnswerses() {
+	@OrderBy("id")
+	public List<Answers> getAnswerses() {
 		return answerses;
 	}
 
-	public void setAnswerses(Set<Answers> answerses) {
+	public void setAnswerses(List<Answers> answerses) {
 		this.answerses = answerses;
 	}
 
-	public void setTesttypeHasQuestions(Set<TesttypeHasQuestion> testtypeHasQuestions) {
+	public void setTesttypeHasQuestions(List<TesttypeHasQuestion> testtypeHasQuestions) {
 		this.testtypeHasQuestions = testtypeHasQuestions;
 	}
 

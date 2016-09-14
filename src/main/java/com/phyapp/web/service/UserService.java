@@ -12,4 +12,6 @@ public interface UserService {
 	Integer saveUserRole(UserRole userRole);
 	Integer updateUserDetail(UserDetail userDetail);
 	void deleteUserDetail(UserDetail userDetail);
+	UserRole getUserRoleByUserId(Integer userId);
+	boolean isUserNameExist(String username);
 }

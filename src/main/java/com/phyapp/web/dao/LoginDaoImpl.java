@@ -40,7 +40,7 @@ public class LoginDaoImpl implements LoginDao {
 
 	public Integer saveLoginDetail(Login loginDetail) {
 		Session session = getSession();
-		session.save(loginDetail);
+		session.saveOrUpdate(loginDetail);
 		Serializable id = session.getIdentifier(loginDetail);
 		return Integer.valueOf(id.toString());
 	}

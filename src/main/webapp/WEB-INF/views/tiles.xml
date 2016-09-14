@@ -88,4 +88,15 @@
        <put-attribute name="body" value="/WEB-INF/views/pages/testdetail.jsp" />  
    </definition>
    
+   <definition name="testTypeDetailPage" extends="base-definition">  
+       <put-attribute name="title" value="Score" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/testtypedetail.jsp" />  
+   </definition>
+   
+   <definition name="updateUserDetailPage" extends="base-definition">  
+       <put-attribute name="title" value="Score" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/updateuserdetail.jsp" />  
+   </definition>
+   
+   
 </tiles-definitions>

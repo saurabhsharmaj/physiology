@@ -45,5 +45,15 @@ public class UserServiceImpl implements UserService {
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Integer saveUserRole(UserRole userRole) {
 		return testTypeDao.saveUserRole(userRole);
+	}
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public UserRole getUserRoleByUserId(Integer userId) {
+		return testTypeDao.getUserRoleByUserId(userId);
+	}
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public boolean isUserNameExist(String username) {
+		return testTypeDao.isUserNameExist(username);
 	}	
 }

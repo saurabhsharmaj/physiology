@@ -108,6 +108,7 @@ public class TestDetailDaoImpl implements TestDetailDao {
 		Criteria criteria = getSession().createCriteria(Testdetail.class);
 		criteria.add(Restrictions.eq("userDetail.id", userId));
 		criteria.add(Restrictions.eq("testtype.id", testTypeId));
+		criteria.setFetchMode("testtype", FetchMode.JOIN);
 		return criteria.list();
 	}
 }

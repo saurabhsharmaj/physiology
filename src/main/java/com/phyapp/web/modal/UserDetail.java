@@ -1,15 +1,18 @@
 package com.phyapp.web.modal;
 // Generated Aug 27, 2016 8:17:55 PM by Hibernate Tools 4.3.1.Final
 
-import java.util.HashSet;
-import java.util.Set;
+import static javax.persistence.GenerationType.IDENTITY;
+
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 /**
@@ -36,17 +39,17 @@ public class UserDetail implements java.io.Serializable {
 	private String address;
 	private String mobileno;
 	private String phno;
-	private Set<Login> logins = new HashSet<Login>(0);
-	private Set<Testdetail> testdetails = new HashSet<Testdetail>(0);
-	private Set<Testhistory> testhistories = new HashSet<Testhistory>(0);
+	private List<Login> logins = new LinkedList<Login>();
+	private List<Testdetail> testdetails = new LinkedList<Testdetail>();
+	private List<Testhistory> testhistories = new LinkedList<Testhistory>();
 
 	public UserDetail() {
 	}
 
 	public UserDetail(String name, String fname, Integer age, Integer sex, String educationType, String educationMedium,
 			String domicile, Integer maritialStatus, String monthlyIncome, String religion, Integer familyType,
-			Integer birthorder, String locality, String address, String mobileno, String phno, Set<Login> logins,
-			Set<Testdetail> testdetails, Set<Testhistory> testhistories) {
+			Integer birthorder, String locality, String address, String mobileno, String phno, List<Login> logins,
+			List<Testdetail> testdetails, List<Testhistory> testhistories) {
 		this.name = name;
 		this.fname = fname;
 		this.age = age;
@@ -225,29 +228,32 @@ public class UserDetail implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userDetail")
-	public Set<Login> getLogins() {
+	@OrderBy("id")
+	public List<Login> getLogins() {
 		return this.logins;
 	}
 
-	public void setLogins(Set<Login> logins) {
+	public void setLogins(List<Login> logins) {
 		this.logins = logins;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userDetail")
-	public Set<Testdetail> getTestdetails() {
+	@OrderBy("id")
+	public List<Testdetail> getTestdetails() {
 		return this.testdetails;
 	}
 
-	public void setTestdetails(Set<Testdetail> testdetails) {
+	public void setTestdetails(List<Testdetail> testdetails) {
 		this.testdetails = testdetails;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userDetail")
-	public Set<Testhistory> getTesthistories() {
+	@OrderBy("id")
+	public List<Testhistory> getTesthistories() {
 		return this.testhistories;
 	}
 
-	public void setTesthistories(Set<Testhistory> testhistories) {
+	public void setTesthistories(List<Testhistory> testhistories) {
 		this.testhistories = testhistories;
 	}
 

@@ -80,7 +80,8 @@ public class TestDetailServiceImpl implements TestDetailService {
 		return testDetailDao.getTestDetailByUserId(userid);
 	}
 
-	@Override
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = false)
 	public List<Testdetail> getAllTestDetailByUserIdAndTestType(Integer userId, Integer testTypeId) {
 		return testDetailDao.getAllTestDetailByUserIdAndTestType(userId, testTypeId);
 	}

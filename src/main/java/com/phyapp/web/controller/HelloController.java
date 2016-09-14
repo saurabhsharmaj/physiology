@@ -3,12 +3,10 @@ package com.phyapp.web.controller;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -18,8 +16,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -141,7 +141,7 @@ public class HelloController {
 		Testdetail testdetail = testDetailService.getTestDetailById(testDetailId);
 		List<Map<Question,Testhistory>> questionList = new ArrayList<Map<Question,Testhistory>>();
 		for (Testhistory testhistory : testdetail.getTesthistories()) {
-			Map<Question,Testhistory> map = new HashMap<Question,Testhistory>();
+			Map<Question,Testhistory> map = new LinkedHashMap<Question,Testhistory>();
 			Question question = questionService.getQuestionById(testhistory.getQuestionId());			
 			map.put(question, testhistory);
 			questionList.add(map);
@@ -159,7 +159,7 @@ public class HelloController {
 		List<Testdetail> testdetails = testDetailService.getAllTestDetailByUserIdAndTestType(userid, testtypeid);
 		model.addAttribute("testdetails",testdetails);
 		model.addAttribute("targetURL", PhysiologyUtils.determineTargetUrl(SecurityContextHolder.getContext().getAuthentication()));
-		return "allTestDetailByUserIdPage";
+		return "testTypeDetailPage";
     }
 	
 	@RequestMapping(value = "/patientHome", method = RequestMethod.GET)
@@ -440,4 +440,72 @@ public class HelloController {
 			return jsonObject.toString();
 		}
 	}
+		
+	@RequestMapping(value = "/userdetail/{userId}", method = RequestMethod.GET, produces = "application/json")
+    public String getUserDetailPage(@PathVariable(value="userId") Integer userId, Model model) {
+		
+		UserDetail userDetail = userService.getUserDetailById(userId);
+		UserRole role = userService.getUserRoleByUserId(userId);
+		Login loginDetail = loginService.getLoginDetailById(userId);
+		RegistrationVO registrationVO = PhysiologyUtils.getRegistrationDetail(userDetail,role,loginDetail);		
+		model.addAttribute("targetURL", PhysiologyUtils.determineTargetUrl(SecurityContextHolder.getContext().getAuthentication()));
+		model.addAttribute("roleList", new String[]{PhysiologyConstants.ROLE_ADMIN,PhysiologyConstants.ROLE_DOCTOR,PhysiologyConstants.ROLE_PATIENT});
+		model.addAttribute("user", registrationVO);
+		return "updateUserDetailPage";
+		
+    }
+	
+	@RequestMapping(value = "updateUserdetail", method = RequestMethod.POST)
+   	public String updateUserDetailPage(@ModelAttribute(value="user") RegistrationVO regInfo, ModelMap model) {
+    		UserDetail userDetail = new UserDetail();
+    		userDetail.setId(regInfo.getId()==null?null:Integer.parseInt(regInfo.getId()));
+    		userDetail.setName(regInfo.getName());
+    		userDetail.setFname(regInfo.getFname());
+    		userDetail.setPhno(regInfo.getContactNo());
+    		userDetail.setAddress(regInfo.getAddress());
+    		userDetail.setAge(Integer.parseInt(regInfo.getAge()));
+    		userDetail.setSex(Integer.parseInt(regInfo.getGender()));
+    		userDetail.setEducationType(regInfo.getEduType());
+    		userDetail.setEducationMedium(regInfo.getEduMedium());
+    		userDetail.setMaritialStatus(Integer.parseInt(regInfo.getMaritalStatus()));
+    		userDetail.setMonthlyIncome(regInfo.getIncome());
+    		userDetail.setReligion(regInfo.getReligion());
+    		userDetail.setFamilyType(Integer.parseInt(regInfo.getFamilyType()));
+    		userDetail.setBirthorder(Integer.parseInt(regInfo.getBirthOrder()));
+    		userDetail.setLocality(regInfo.getLocality());
+    		
+    		userService.saveUserDetail(userDetail);
+    		
+    		UserRole userRole= new UserRole();
+    		userRole.setId(userDetail.getId());
+    		userRole.setUsername(regInfo.getUsername());
+    		userRole.setRole(regInfo.getRole());
+    		userService.saveUserRole(userRole);
+    		
+    		Login login = new Login();
+    		login.setId(userDetail.getId());
+    		login.setUserDetail(userDetail);
+    		login.setStatus(PhysiologyConstants.ACTIVE);
+    		login.setUsername(regInfo.getUsername());
+    		login.setPassword(regInfo.getPassword());
+    		loginService.saveLoginDetail(login);
+    		
+    		return "redirect:/"+ PhysiologyUtils.determineTargetUrl(SecurityContextHolder.getContext().getAuthentication());
+    }
+	
+	 @RequestMapping(value = "isUserAlreadyNameExist/{username}", method = RequestMethod.GET, produces = "application/json")
+		public @ResponseBody String isUserAlreadyNameExist(@PathVariable(value="username")String username) {
+			JsonObject response = new JsonObject();
+			try {
+				boolean isUserAlreadyNameExist = userService.isUserNameExist(username);
+				response.addProperty("response", isUserAlreadyNameExist);
+				response.addProperty("successMsg", "success");
+				response.addProperty("errorMsg", "");
+			}catch(Exception e){
+				response.addProperty("successMsg", "");
+				response.addProperty("errorMsg", "error:"+e.getMessage());
+			}
+			return response.toString();
+		}
+	
 }

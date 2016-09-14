@@ -38,7 +38,7 @@ public class TestTypeDaoImpl implements TestTypeDao {
 
 	public Integer saveTestType(Testtype testType) {
 		Session session = getSession();
-		session.save(testType);
+		session.saveOrUpdate(testType);
 		Serializable id = session.getIdentifier(testType);
 		return Integer.valueOf(id.toString());
 	}

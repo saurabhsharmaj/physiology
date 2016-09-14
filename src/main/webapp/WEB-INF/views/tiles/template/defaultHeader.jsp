@@ -8,7 +8,7 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="index.html"></a><span class="heading-text">Physiocology Test</span>
+			<a class="navbar-brand" href="${pageContext.request.contextPath}"></a><span class="heading-text">Physiocology Test</span>
 		</div>
 		<!-- Collect the nav links, forms, and other content for toggling -->
 		<div class="collapse navbar-collapse" id="top-navbar-1">

@@ -26,7 +26,7 @@
 		                            <div class="form-bottom">
 				                    	<div class="row">
 										    <div class="col-sm-12">
-										    	${que.key.id }<h3>Q.No.${questionMaploop.index + 1} &nbsp; ${que.key.question}</h3>
+										    	<h3>Q.No.${questionMaploop.index + 1} &nbsp; ${que.key.question}</h3>
 										    </div>
 										</div>
 										

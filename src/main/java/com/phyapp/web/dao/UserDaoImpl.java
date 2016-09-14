@@ -10,6 +10,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.phyapp.web.modal.Login;
 import com.phyapp.web.modal.UserDetail;
 import com.phyapp.web.modal.UserRole;
 
@@ -36,7 +37,7 @@ public class UserDaoImpl implements UserDao {
 
 	public Integer saveUserDetail(UserDetail userDetail) {
 		Session session = getSession();
-		session.save(userDetail);
+		session.saveOrUpdate(userDetail);
 		Serializable id = session.getIdentifier(userDetail);
 		return Integer.valueOf(id.toString());
 	}
@@ -59,6 +60,20 @@ public class UserDaoImpl implements UserDao {
 		session.save(userRole);
 		Serializable id = session.getIdentifier(userRole);
 		return Integer.valueOf(id.toString());
+	}
+
+	@Override
+	public UserRole getUserRoleByUserId(Integer userId) {
+		Criteria criteria = getSession().createCriteria(UserRole.class);
+		criteria.add(Restrictions.eq("id", userId));
+		return (UserRole) criteria.uniqueResult();
+	}
+
+	@Override
+	public boolean isUserNameExist(String username) {
+		Criteria criteria = getSession().createCriteria(Login.class);
+		criteria.add(Restrictions.eq("username", username));
+		return (Login) criteria.uniqueResult() ==null?false:true;
 	}
 	
 }

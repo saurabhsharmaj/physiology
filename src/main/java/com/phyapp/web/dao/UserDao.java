@@ -12,4 +12,6 @@ public interface UserDao {
 	Integer updateUserDetail(UserDetail userDetail);
 	void deleteUserDetail(UserDetail userDetail);
 	Integer saveUserRole(UserRole userRole);
+	UserRole getUserRoleByUserId(Integer userId);
+	boolean isUserNameExist(String username);
 }

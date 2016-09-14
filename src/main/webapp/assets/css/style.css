@@ -239,3 +239,15 @@ only screen and (                min-resolution: 2dppx) {
     }
 	
 }
+
+.success{
+	    display: block;
+    color: #FFF;
+    background: GREEN;
+}
+
+.error{
+	    display: block;
+    color: #FFF;
+    background: RED;
+}

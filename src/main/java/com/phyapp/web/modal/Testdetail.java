@@ -1,18 +1,21 @@
 package com.phyapp.web.modal;
 // Generated Aug 27, 2016 8:17:55 PM by Hibernate Tools 4.3.1.Final
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -29,13 +32,13 @@ public class Testdetail implements java.io.Serializable {
 	private UserDetail userDetail;
 	private Integer score;
 	private Date updatedOn;
-	private Set<Testhistory> testhistories = new HashSet<Testhistory>(0);
+	private List<Testhistory> testhistories = new LinkedList<Testhistory>();
 
 	public Testdetail() {
 	}
 
 	public Testdetail(Testtype testtype, UserDetail userDetail, Integer score, Date updatedOn,
-			Set<Testhistory> testhistories) {
+			List<Testhistory> testhistories) {
 		this.testtype = testtype;
 		this.userDetail = userDetail;
 		this.score = score;
@@ -95,11 +98,12 @@ public class Testdetail implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "testdetail")
-	public Set<Testhistory> getTesthistories() {
+	@OrderBy("id")
+	public List<Testhistory> getTesthistories() {
 		return this.testhistories;
 	}
 
-	public void setTesthistories(Set<Testhistory> testhistories) {
+	public void setTesthistories(List<Testhistory> testhistories) {
 		this.testhistories = testhistories;
 	}
 
