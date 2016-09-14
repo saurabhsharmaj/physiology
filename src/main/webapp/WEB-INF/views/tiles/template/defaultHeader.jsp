@@ -8,24 +8,34 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="${pageContext.request.contextPath}"></a><span class="heading-text">Physiocology Test</span>
+			<a class="navbar-brand" href="${pageContext.request.contextPath}/doctorHome"></a><span class="heading-text">Physiocology Test</span>
 		</div>
 		<!-- Collect the nav links, forms, and other content for toggling -->
 		<div class="collapse navbar-collapse" id="top-navbar-1">
 			<ul class="nav navbar-nav navbar-right">
 				<li>
 					<span class="li-text">
-						Dr. Krishan Kumar Sharma 
+						
+						<c:choose>
+							<c:when test="${empty loginDetails}"><a href="${pageContext.request.contextPath}/registration" class="header-btn">Register</a> &nbsp; <a href="${pageContext.request.contextPath}/login" class="header-btn">Login</a></c:when>
+							<c:otherwise>Hi ${loginDetails.username}</c:otherwise>
+						</c:choose>
+						
 					</span> 
-					<a href="#"><strong>links</strong></a> 
+					
 					<span class="li-text">
-						(+91 9887 873 624)
+						
 					</span> 
 					<span class="li-social">
-						<a href="#"><i class="fa fa-facebook"></i></a> 
-						<a href="#"><i class="fa fa-twitter"></i></a> 
-						<a href="#"><i class="fa fa-envelope"></i></a> 
-						<a href="#"><i class="fa fa-skype"></i></a>
+						<c:choose>
+							<c:when test="${empty loginDetails}"></c:when>
+							<c:url value="/j_spring_security_check" var="loginUrl" />
+							<form action="${loginUrl}" method="post">
+								<input type="text"> 
+							</form>
+							<c:otherwise><a href="<c:url value="j_spring_security_logout" />" class="header-btn">Logout</a></c:otherwise>
+							
+						</c:choose>
 					</span>
 				</li>
 			</ul>
