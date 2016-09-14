@@ -29,12 +29,7 @@
 					<span class="li-social">
 						<c:choose>
 							<c:when test="${empty loginDetails}"></c:when>
-							<c:url value="/j_spring_security_check" var="loginUrl" />
-							<form action="${loginUrl}" method="post">
-								<input type="text"> 
-							</form>
-							<c:otherwise><a href="<c:url value="j_spring_security_logout" />" class="header-btn">Logout</a></c:otherwise>
-							
+							<c:otherwise><a href="${pageContext.request.contextPath}/logout" class="header-btn">Logout</a></c:otherwise>
 						</c:choose>
 					</span>
 				</li>
