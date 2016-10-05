@@ -618,12 +618,13 @@ section {
 }
 
 .modal-popup {
-	position: relative;
-	padding: 45px 30px;
-	text-align: center;
-	background: url('/physiology/resources/img/popup.jpg');
-	box-shadow: none;
-	border-radius: 2px;
+	    position: relative;
+    padding: 100px 10px;
+    text-align: center;
+    background: url(/physiology/resources/img/popup.jpg);
+    box-shadow: none;
+    border-radius: 2px;
+    margin-bottom: 25px;
 }
 
 .modal-popup a.close-link {
@@ -838,6 +839,7 @@ section {
 
 .white {
 	color: white;
+	background: #0f1719;
 }
 
 .light-white {
@@ -1009,4 +1011,58 @@ footer{
 
 .form-bottom {
     border-bottom: 1px solid white;
+}
+.btn-login{
+	float:right;
+}
+
+.home-page-form {
+	float: center;
+	/* width: 25%; */
+	/* padding-top: 5px; */
+	font-size: 66px;
+	/* color: #ddd; */
+	line-height: 100px;
+	text-align: center;
+}
+
+/* Set the fixed height of the footer here */
+     html,body{
+    height: 100%
+}
+      
+
+      /* Lastly, apply responsive CSS fixes as necessary */
+      @media (max-width: 767px) {
+        #footer {
+          margin-left: -20px;
+          margin-right: -20px;
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+      }
+      
+      
+.modal {
+  text-align: center;
+}
+
+@media screen and (min-width: 768px) { 
+  .modal:before {
+    display: inline-block;
+    vertical-align: middle;
+    content: " ";
+    height: 100%;
+  }
+}
+
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.modal-text{
+	    background: #122d32;
+    color: #FFF;
 }

@@ -19,7 +19,7 @@
 		                        		</div>
 		                            </div>
 		                            <div class="form-bottom">
-		                            	<div class="form-group">
+		                            	<div class="form-group" style="display:none;">
 				                    		<label class="sr-only" for="role">Role</label>
 				                        	<select name="role" class="name form-control" >
 				                        		<option value="ROLE_PATIENT" selected="selected">ROLE PATIENT</option>
@@ -29,7 +29,7 @@
 				                        
 				                    	<div class="form-group">
 				                    		<label class="sr-only" for="name">Name</label>
-				                        	<input type="text" name="name" placeholder="Name..." class="name form-control" id="name">
+				                        	* <input type="text" name="name" placeholder="Name..." class="name form-control" id="name">
 				                        </div>
 				                        
 				                        <div class="form-group">
@@ -49,7 +49,7 @@
 				                        
 				                        <div class="form-group">
 				                    		<label class="sr-only" for="fname">Age</label>
-				                        	<input type="text" name="age" placeholder="age" class="age form-control" id="age">
+				                        	*<input type="text" name="age" placeholder="age" class="age form-control" id="age">
 				                        </div>
 				                        
 										<label class="row" >Select Gender:</label>

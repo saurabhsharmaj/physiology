@@ -29,7 +29,8 @@ public class Testtype implements java.io.Serializable {
 	private List<TesttypeHasQuestion> testtypeHasQuestions = new LinkedList<TesttypeHasQuestion>();
 	private List<Testhistory> testhistories = new LinkedList<Testhistory>();
 	private List<Testdetail> testdetails = new LinkedList<Testdetail>();
-
+	private String note;
+	
 	public Testtype() {
 	}
 	
@@ -117,5 +118,15 @@ public class Testtype implements java.io.Serializable {
 	public void setTestdetails(List<Testdetail> testdetails) {
 		this.testdetails = testdetails;
 	}
+	
+	@Column(name = "note")
+	public String getNote() {
+		return note;
+	}
 
+	public void setNote(String note) {
+		this.note = note;
+	}
+
+	
 }

@@ -53,6 +53,7 @@ import com.phyapp.web.value.QuestionAnswer;
 import com.phyapp.web.value.RegistrationVO;
 import com.phyapp.web.value.TestDetailResponse;
 import com.phyapp.web.value.TestResponse;
+import com.phyapp.web.value.feedbackVO;
 
 @Controller
 public class HelloController {
@@ -314,11 +315,26 @@ public class HelloController {
     
     @RequestMapping(value = "testresult/{testtypeid}/{score}", method = RequestMethod.GET)
     public String testResult(@PathVariable(value="testtypeid") Integer testtypeid, @PathVariable(value="score") Integer score,ModelMap model) {    	
-    	model.addAttribute("testType",testTypeService.getTestTypeById(testtypeid));
+    	Testtype testType= testTypeService.getTestTypeById(testtypeid);
+    	model.addAttribute("testType", testType);
     	model.addAttribute("score", score);
-    	model.addAttribute("targetURL", PhysiologyUtils.determineTargetUrl(SecurityContextHolder.getContext().getAuthentication()));
+    	if(testType.getTestName().equals("coping style")){
+    		model.addAttribute("targetURL", "savefeedback");
+    	} else {
+    		model.addAttribute("targetURL", PhysiologyUtils.determineTargetUrl(SecurityContextHolder.getContext().getAuthentication()));
+    	}
     	return "resultPage";
     }
+    
+    
+    @RequestMapping(value = "savefeedback", method = RequestMethod.POST)
+    public String testResult(@RequestBody feedbackVO feedback, ModelMap model) {
+    	//TODO save Feedback in db.
+    	System.out.println(feedback);
+    	return "redirect://"+PhysiologyUtils.determineTargetUrl(SecurityContextHolder.getContext().getAuthentication());
+    }
+    
+    
     
     @RequestMapping(value = "saveTestResult", method = RequestMethod.POST, consumes="application/json", headers = "Accept=application/json",  produces = "application/json")
    	public @ResponseBody String saveTestResult(@RequestBody TestResponse test, UriComponentsBuilder ucBuilder) {

@@ -35,14 +35,12 @@
 <body>
 	<input type="hidden" id="contextPath" value="${pageContext.request.contextPath}/">
 	<tiles:insertAttribute name="header" />
-	
-	<tiles:insertAttribute name="body" />	
-	
-	
-	<footer>
-		<tiles:insertAttribute name="footer" />
-	</footer>
+	<tiles:insertAttribute name="body" />
 </body>
+	
+<footer>
+	<tiles:insertAttribute name="footer" />
+</footer>
  <!-- Javascript -->
         <script src="${pageContext.request.contextPath}/assets/js/jquery-1.11.1.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets/bootstrap/js/bootstrap.min.js"></script>

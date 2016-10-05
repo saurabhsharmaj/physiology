@@ -16,7 +16,7 @@
 							</div>
 							<h4 class="heading">${testType.testName }</h4>
 							<p class="description">${testType.description}
-							 <a href="./starttest/${loginDetails.userDetail.id}/${testType.id}"  class="btn btn-blue-fill expand">Take Test</a>						
+							 <a href="#" class="btn btn-blue-fill expand" onclick="showModal(${loginDetails.userDetail.id},${testType.id},escape('${testType.note}'));">Take Test</a>						
 							</p>
 						</div>
 					</div>
@@ -25,3 +25,26 @@
 		</div>
 		<div class="cut cut-bottom"></div>
 	</section>
+	
+	<div class="modal fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content modal-popup">
+				<a href="#" class="close-link"><i class="icon_close_alt2"></i></a>
+				<h3 class="white">Introduction</h3>
+				<form class="popup-form" id="popup-form">
+					<p id="modal-body-text" class="modal-text"></p>
+					<button type="submit" class="btn btn-submit">Start Test</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<script>
+
+	function showModal(userId, testTypeId,note){
+		var url = './starttest/'+userId+'/'+testTypeId;	
+		$('#popup-form').attr('action',url);		
+		$('#modal-body-text').html(unescape(note));		
+		$('#modal1').modal('show');
+	}
+	</script>
